@@ -64,6 +64,7 @@ Plugin 'sickill/vim-monokai'
 Plugin 'tpope/vim-repeat'
 Plugin 'beloglazov/vim-online-thesaurus'
 Plugin 'jaxbot/semantic-highlight.vim'
+Plugin 'digitaltoad/vim-jade'
 
 if !isdirectory(expand("~/.vim/bundle/vim-airline"))
     execute 'silent BundleInstall'
@@ -73,7 +74,7 @@ endif
 filetype plugin indent on " detect file type and load indents and plugins
 syntax on                 " turn on syntax highlighting
 syntax enable
-colorscheme molokai    " syntax highlighting colours
+colorscheme jellybeans    " syntax highlighting colours
 set cursorline            " don't lose yourself
 set expandtab             " enter spaces when tab is pressed
 set textwidth=80          " break lines when line length increases
@@ -212,11 +213,20 @@ autocmd! BufNewFile,BufReadPost *.md set filetype=markdown
 autocmd! Filetype markdown,rst set textwidth=79
 
 " Remove trailing whitespace and empty lines at end of file
-augroup whitespace
-    autocmd!
-    autocmd BufWritePre * :%s/\s\+$//e
-    autocmd BufWritePre * :%s/\($\n\s*\)\+\%$//e
-augroup END
+fun! StripTrailingWhiteSpace()
+  " don't strip on these filetypes
+  if &ft =~ 'markdown'
+    return
+  endif
+  %s/\s\+$//e
+endfun
+autocmd bufwritepre * :call StripTrailingWhiteSpace()
+
+"augroup whitespace
+"    autocmd!
+"    autocmd BufWritePre * :%s/\s\+$//e
+"    autocmd BufWritePre * :%s/\($\n\s*\)\+\%$//e
+"augroup END
 
 """"""""""""""""""""""""""""""""""""""""""
 " Navigate tmux and vim with the same keys
