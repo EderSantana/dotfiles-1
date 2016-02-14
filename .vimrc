@@ -65,6 +65,8 @@ Plugin 'tpope/vim-repeat'
 Plugin 'beloglazov/vim-online-thesaurus'
 Plugin 'jaxbot/semantic-highlight.vim'
 Plugin 'digitaltoad/vim-jade'
+Plugin 'lervag/vimtex'
+Plugin 'AlessandroYorba/Alduin'
 
 if !isdirectory(expand("~/.vim/bundle/vim-airline"))
     execute 'silent BundleInstall'
@@ -211,16 +213,17 @@ autocmd FileType html :set tw=120
 " Automatically wrap text while typing in Markdown and rST documents
 autocmd! BufNewFile,BufReadPost *.md set filetype=markdown
 autocmd! Filetype markdown,rst set textwidth=79
+autocmd BufRead,BufNewFile *.md setlocal spell
 
 " Remove trailing whitespace and empty lines at end of file
-fun! StripTrailingWhiteSpace()
-  " don't strip on these filetypes
-  if &ft =~ 'markdown'
-    return
-  endif
-  %s/\s\+$//e
-endfun
-autocmd bufwritepre * :call StripTrailingWhiteSpace()
+" fun! StripTrailingWhiteSpace()
+"   " don't strip on these filetypes
+"   if &ft =~ 'markdown'
+"     return
+"   endif
+"   %s/\s\+$//e
+" endfun
+" autocmd bufwritepre * :call StripTrailingWhiteSpace()
 
 "augroup whitespace
 "    autocmd!
@@ -252,7 +255,7 @@ nnoremap <C-c><cr> ma<C-c><C-c>`a
 """"""""""""""""""""""""""""""""
 " Markdown to PDF - Needs pandoc
 """"""""""""""""""""""""""""""""
-autocmd BufWritePost *.md execute "!pandoc -o " . expand("%:r") . ".pdf " . expand("%") . " &"
+" autocmd BufWritePost *.md execute "!pandoc -o " . expand("%:r") . ".pdf " . expand("%") . " &"
 au FocusGained * :redraw!
 autocmd BufNewFile,BufRead *.tex setlocal spell spelllang=en_us
 
