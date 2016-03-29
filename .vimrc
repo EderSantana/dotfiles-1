@@ -32,7 +32,7 @@ Bundle 'ivanov/vim-ipython'
 Bundle 'kien/ctrlp.vim'
 Bundle 'gmarik/vundle'
 Bundle 'tpope/vim-fugitive'
-"Bundle 'msanders/snipmate.vim'
+Bundle 'msanders/snipmate.vim'
 Bundle 'tpope/vim-surround'
 "Bundle 'tpope/vim-git'
 Bundle 'ervandew/supertab'
@@ -51,7 +51,8 @@ Bundle 'nanotech/jellybeans.vim'
 Plugin 'hynek/vim-python-pep8-indent'
 Plugin 'bling/vim-bufferline'
 Plugin 'wincent/terminus'
-Plugin 'sirver/ultisnips'
+" Plugin 'sirver/ultisnips'
+" Plugin 'honza/vim-snippets'
 Plugin 'kchmck/vim-coffee-script'
 " Plugin 'suan/vim-instant-markdown'
 Plugin 'plasticboy/vim-markdown'
@@ -67,6 +68,7 @@ Plugin 'jaxbot/semantic-highlight.vim'
 Plugin 'digitaltoad/vim-jade'
 Plugin 'lervag/vimtex'
 Plugin 'AlessandroYorba/Alduin'
+Plugin 'matschaffer/vim-islime2'
 
 if !isdirectory(expand("~/.vim/bundle/vim-airline"))
     execute 'silent BundleInstall'
@@ -79,7 +81,7 @@ syntax enable
 colorscheme jellybeans    " syntax highlighting colours
 set cursorline            " don't lose yourself
 set expandtab             " enter spaces when tab is pressed
-set textwidth=80          " break lines when line length increases
+" set textwidth=80          " break lines when line length increases
 set tabstop=4             " use 4 spaces to represent tab
 set softtabstop=4
 set shiftwidth=4          " number of spaces to use for auto indent
@@ -177,11 +179,13 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
 " UltiSnips
-nnoremap <C-b> <esc>
-let g:UltiSnipsExpandTrigger="<F2>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-let g:UltiSnipsSnippetsDir='~/.vim/UltiSnips'
+" nnoremap <C-b> <esc>
+" let g:UltiSnipsExpandTrigger="<F2>"
+" let g:UltiSnipsJumpForwardTrigger="<c-b>"
+" let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+" let g:UltiSnipsSnippetsDir='~/.vim/UltiSnips'
+ino <c-j> <c-r>=TriggerSnippet()<cr>
+snor <c-j> <esc>i<right><c-r>=TriggerSnippet()<cr>
 
 " vim-markdown
 let g:vim_markdown_math=1
@@ -216,14 +220,15 @@ autocmd! Filetype markdown,rst set textwidth=79
 autocmd BufRead,BufNewFile *.md setlocal spell
 
 " Remove trailing whitespace and empty lines at end of file
-" fun! StripTrailingWhiteSpace()
-"   " don't strip on these filetypes
-"   if &ft =~ 'markdown'
-"     return
-"   endif
-"   %s/\s\+$//e
-" endfun
-" autocmd bufwritepre * :call StripTrailingWhiteSpace()
+fun! StripTrailingWhiteSpace()
+  " don't strip on these filetypes
+  if &ft =~ 'markdown'
+    return
+  endif
+  %s/\s\+$//e
+  %s/\($\n\s*\)\+\%$//e
+endfun
+autocmd bufwritepre * :call StripTrailingWhiteSpace()
 
 "augroup whitespace
 "    autocmd!
