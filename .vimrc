@@ -28,14 +28,14 @@ call vundle#rc()
 Bundle 'wakatime/vim-wakatime'
 Bundle 'scrooloose/syntastic'
 Bundle 'edersantana/vim-slime'
-Bundle 'ivanov/vim-ipython'
+" Bundle 'ivanov/vim-ipython'
 Bundle 'kien/ctrlp.vim'
 Bundle 'gmarik/vundle'
 Bundle 'tpope/vim-fugitive'
-Bundle 'msanders/snipmate.vim'
+" Bundle 'msanders/snipmate.vim'
 Bundle 'tpope/vim-surround'
 "Bundle 'tpope/vim-git'
-Bundle 'ervandew/supertab'
+"Bundle 'ervandew/supertab'
 "Bundle 'fholgado/minibufexpl.vim'
 "Bundle 'wincent/Command-T'
 "Bundle 'weynhamz/vim-plugin-minibufexpl'
@@ -51,7 +51,7 @@ Bundle 'nanotech/jellybeans.vim'
 Plugin 'hynek/vim-python-pep8-indent'
 Plugin 'bling/vim-bufferline'
 Plugin 'wincent/terminus'
-" Plugin 'sirver/ultisnips'
+Plugin 'sirver/ultisnips'
 " Plugin 'honza/vim-snippets'
 Plugin 'kchmck/vim-coffee-script'
 " Plugin 'suan/vim-instant-markdown'
@@ -69,6 +69,14 @@ Plugin 'digitaltoad/vim-jade'
 Plugin 'lervag/vimtex'
 Plugin 'AlessandroYorba/Alduin'
 Plugin 'matschaffer/vim-islime2'
+Plugin 'honza/vim-snippets'
+Plugin 'Shougo/neocomplete.vim'
+Plugin 'chriskempson/base16-vim'
+Plugin 'flazz/vim-colorschemes'
+
+set encoding=utf8
+let base16colorspace=256  " Access colors present in 256 colorspace"
+set background=dark
 
 if !isdirectory(expand("~/.vim/bundle/vim-airline"))
     execute 'silent BundleInstall'
@@ -78,7 +86,7 @@ endif
 filetype plugin indent on " detect file type and load indents and plugins
 syntax on                 " turn on syntax highlighting
 syntax enable
-colorscheme jellybeans    " syntax highlighting colours
+colorscheme monokai    " syntax highlighting colours
 set cursorline            " don't lose yourself
 set expandtab             " enter spaces when tab is pressed
 " set textwidth=80          " break lines when line length increases
@@ -111,7 +119,7 @@ let g:slime_python_ipython = 1
 """""""""""
 " airline
 """""""""""
-set guifont=Hack
+set guifont=Monospace "Hack
 set laststatus=2 " always show statusline
 let g:airline#extensions#bufferline#enabled = 1
 " let g:airline#extensions#tabline#enabled = 1 " show open buffers
@@ -151,9 +159,9 @@ let NERDTreeIgnore = ['\.pyc$']
 " let NERDTreeMapOpenInTab='<ENTER>'
 
 " SuperTab
-au FileType python set omnifunc=pythoncomplete#Complete
-let g:SuperTabDefaultCompletiontype = "context"
-set completeopt=menuone,longest,preview
+"au FileType python set omnifunc=pythoncomplete#Complete
+"let g:SuperTabDefaultCompletiontype = "context"
+"set completeopt=menuone,longest,preview
 
 " Fugitive
 set statusline+=%{fugitive#statusline()}
@@ -169,26 +177,34 @@ nmap <silent><Leader>te <Esc>:Pytest error<CR>
 
 " Syntastic
 " Default settings from their github
+highlight SyntasticError guibg=#002f2f
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
-
-" let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
+let g:syntastic_loc_list_height = 3
 
 " UltiSnips
-" nnoremap <C-b> <esc>
-" let g:UltiSnipsExpandTrigger="<F2>"
-" let g:UltiSnipsJumpForwardTrigger="<c-b>"
-" let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-" let g:UltiSnipsSnippetsDir='~/.vim/UltiSnips'
-ino <c-j> <c-r>=TriggerSnippet()<cr>
-snor <c-j> <esc>i<right><c-r>=TriggerSnippet()<cr>
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " vim-markdown
 let g:vim_markdown_math=1
+
+" neocomplete
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 
 """"""""""""""""""""
 " Extra key bindings
@@ -196,6 +212,7 @@ let g:vim_markdown_math=1
 " Move between open buffers easier
 noremap <C-i> :bp<CR>
 noremap <C-o> :bn<CR>
+" Kill buffer
 noremap <Leader>d :bd!<CR>:bp<CR>
 
 " Move between vertical splits easier
@@ -205,12 +222,13 @@ noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
 
 " Highlight characters when lines get too long
-augroup LongLines
-    autocmd!
-    autocmd FileType * match none
-    autocmd FileType python,vim match ErrorMsg '\%>120v.\+'
-    autocmd FileType html,htmldjango match ErrorMsg '\%>100v.\+'
-augroup END
+" augroup LongLines
+"     autocmd!
+"     autocmd FileType * match none
+"     autocmd FileType python,vim match ErrorMsg '\%>120v.\+'
+"     autocmd FileType html,htmldjango match ErrorMsg '\%>100v.\+'
+" augroup END
+set cc=80 " colorcolumn
 
 autocmd FileType html :set tw=120
 
